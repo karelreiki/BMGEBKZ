@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Flow Mindmap - Lulus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .mindmap-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 800px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mindmap {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            overflow: visible;
+        }
+
+        /* SVG Lines */
+        .connection-line {
+            position: absolute;
+            z-index: 1;
+        }
+
+        /* Central Node */
+        .central-node {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            min-width: 180px;
+            border: 4px solid white;
+        }
+
+        /* Branch Nodes */
+        .branch-node {
+            position: absolute;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            z-index: 5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid white;
+            min-width: 140px;
+        }
+
+        .branch-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Sub-branch Nodes */
+        .sub-node {
+            position: absolute;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: #2c3e50;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            min-width: 120px;
+            font-size: 0.9em;
+        }
+
+        .sub-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Decision Nodes */
+        .decision-node {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #2c3e50;
+        }
+
+        /* End Nodes */
+        .end-node {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        /* Positioning */
+        .node-1 { top: 10%; left: 50%; transform: translateX(-50%); }
+        .node-2 { top: 30%; left: 20%; }
+        .node-3 { top: 30%; right: 20%; }
+        .node-4 { top: 15%; left: 15%; }
+        .node-5 { top: 45%; left: 5%; }
+        .node-6 { top: 55%; left: 15%; }
+        .node-7 { top: 15%; right: 15%; }
+        .node-8 { top: 45%; right: 5%; }
+        .node-9 { top: 70%; left: 50%; transform: translateX(-50%); }
+        .node-10 { bottom: 15%; left: 25%; }
+        .node-11 { bottom: 15%; right: 25%; }
+        .node-12 { bottom: 5%; left: 15%; }
+        .node-13 { bottom: 5%; right: 15%; }
+
+        /* Connection Lines */
+        .line {
+            position: absolute;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform-origin: left center;
+            height: 3px;
+            border-radius: 2px;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .mindmap {
+                height: 600px;
+            }
+            
+            .central-node {
+                padding: 15px 25px;
+                font-size: 1em;
+                min-width: 160px;
+            }
+            
+            .branch-node {
+                padding: 12px 16px;
+                min-width: 120px;
+                font-size: 0.9em;
+            }
+            
+            .sub-node {
+                padding: 10px 14px;
+                min-width: 100px;
+                font-size: 0.8em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mindmap-container {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 1.8em;
+            }
+            
+            .mindmap {
+                height: 500px;
+            }
+            
+            .central-node {
+                padding: 12px 20px;
+                font-size: 0.9em;
+                min-width: 140px;
+            }
+            
+            .branch-node {
+                padding: 10px 14px;
+                min-width: 100px;
+                font-size: 0.8em;
+            }
+            
+            .sub-node {
+                padding: 8px 12px;
+                min-width: 80px;
+                font-size: 0.7em;
+            }
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+        }
+
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .legend-color.central { background: linear-gradient(135deg, #ff6b35, #f7931e); }
+        .legend-color.branch { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .legend-color.sub { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+        .legend-color.decision { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+        .legend-color.end { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+    </style>
+</head>
+<body>
+    <div class="mindmap-container">
+        <h1 class="title">Customer Flow - Lulus Education</h1>
+        
+        <div class="mindmap">
+            <!-- Central Node -->
+            <div class="central-node">
+                KONSULTASI<br>
+                <small>Chat Admin / Datang ke Cabang</small>
+            </div>
+
+            <!-- Main Branches -->
+            <div class="branch-node node-2 decision-node">
+                JIKA RAGU
+            </div>
+
+            <div class="branch-node node-3 decision-node">
+                TIDAK RAGU
+            </div>
+
+            <!-- Ragu Branch -->
+            <div class="sub-node node-4">
+                Trial /<br>Placement Test
+            </div>
+
+            <div class="sub-node node-5">
+                Rekomendasi<br>Jadwal
+            </div>
+
+            <div class="sub-node node-6 decision-node">
+                Jika Cocok
+            </div>
+
+            <!-- Tidak Ragu Branch -->
+            <div class="sub-node node-7">
+                Closing &<br>Bayar
+            </div>
+
+            <div class="sub-node node-8">
+                Rekomendasi<br>Jadwal
+            </div>
+
+            <!-- Merge Point -->
+            <div class="branch-node node-9">
+                MASUK KELAS<br>
+                <small>Sesuai Jadwal</small>
+            </div>
+
+            <!-- Learning Process -->
+            <div class="branch-node node-10">
+                MENGIKUTI SESI<br>
+                <small>Sesuai Paket</small>
+            </div>
+
+            <div class="branch-node node-11 decision-node">
+                PAKET HABIS
+            </div>
+
+            <!-- End Options -->
+            <div class="sub-node node-12 end-node">
+                Perpanjangan<br>Program
+            </div>
+
+            <div class="sub-node node-13 end-node">
+                Claim Fasilitas<br>
+                <small>Bonus Kelas / Sertifikat</small>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color central"></div>
+                <span>Titik Awal</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color branch"></div>
+                <span>Proses Utama</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color sub"></div>
+                <span>Sub Proses</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color decision"></div>
+                <span>Keputusan</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color end"></div>
+                <span>Hasil Akhir</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add connection lines dynamically
+        function createLine(from, to) {
+            const fromRect = from.getBoundingClientRect();
+            const toRect = to.getBoundingClientRect();
+            const container = document.querySelector('.mindmap').getBoundingClientRect();
+            
+            const x1 = fromRect.left + fromRect.width/2 - container.left;
+            const y1 = fromRect.top + fromRect.height/2 - container.top;
+            const x2 = toRect.left + toRect.width/2 - container.left;
+            const y2 = toRect.top + toRect.height/2 - container.top;
+            
+            const length = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+            const angle = Math.atan2(y2-y1, x2-x1) * 180/Math.PI;
+            
+            const line = document.createElement('div');
+            line.className = 'line';
+            line.style.width = length + 'px';
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.transform = `rotate(${angle}deg)`;
+            
+            document.querySelector('.mindmap').appendChild(line);
+        }
+
+        // Create connections when page loads
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const central = document.querySelector('.central-node');
+                const nodes = document.querySelectorAll('.branch-node, .sub-node');
+                
+                // Connect central to main branches
+                createLine(central, document.querySelector('.node-2'));
+                createLine(central, document.querySelector('.node-3'));
+                
+                // Connect branches to sub-nodes
+                createLine(document.querySelector('.node-2'), document.querySelector('.node-4'));
+                createLine(document.querySelector('.node-4'), document.querySelector('.node-5'));
+                createLine(document.querySelector('.node-5'), document.querySelector('.node-6'));
+                createLine(document.querySelector('.node-6'), document.querySelector('.node-9'));
+                
+                createLine(document.querySelector('.node-3'), document.querySelector('.node-7'));
+                createLine(document.querySelector('.node-7'), document.querySelector('.node-8'));
+                createLine(document.querySelector('.node-8'), document.querySelector('.node-9'));
+                
+                // Connect to learning process
+                createLine(document.querySelector('.node-9'), document.querySelector('.node-10'));
+                createLine(document.querySelector('.node-10'), document.querySelector('.node-11'));
+                
+                // Connect to end options
+                createLine(document.querySelector('.node-11'), document.querySelector('.node-12'));
+                createLine(document.querySelector('.node-11'), document.querySelector('.node-13'));
+                
+            }, 100);
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.branch-node, .sub-node, .central-node').forEach(node => {
+            node.addEventListener('mouseenter', function() {
+                this.style.transform += ' translateY(-3px)';
+            });
+            
+            node.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' translateY(-3px)', '');
+            });
+        });
+    </script>
+</body>
+</html>
