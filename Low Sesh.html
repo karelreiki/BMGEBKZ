@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisa Peak Season Juni 2025 vs 2024 - Bekasi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="80" r="2.5" fill="rgba(255,255,255,0.1)"/></svg>');
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .year-column {
+            padding: 0;
+        }
+
+        .year-header {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: #2d3748;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .year-2024 .year-header {
+            border-bottom-color: #48bb78;
+        }
+
+        .analysis-section {
+            margin: 40px 30px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
+            background: #667eea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .insight-card {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+
+        .insight-card.highlight {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            border-left-color: #f56565;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .insight-content {
+            color: #4a5568;
+            font-size: 15px;
+        }
+
+        .date-highlight {
+            background: linear-gradient(120deg, #667eea, #764ba2);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .impact-meter {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .impact-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 10px;
+            color: #4a5568;
+        }
+
+        .impact-bar {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .impact-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            border-radius: 4px;
+            transition: width 2s ease-in-out;
+        }
+
+        .high-impact { width: 85%; background: linear-gradient(90deg, #f56565, #e53e3e); }
+        .medium-impact { width: 65%; background: linear-gradient(90deg, #ed8936, #dd6b20); }
+        .low-impact { width: 35%; background: linear-gradient(90deg, #48bb78, #38a169); }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-date {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            min-width: 80px;
+            text-align: center;
+            margin-right: 15px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 3px solid #667eea;
+        }
+
+        .economic-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .indicator-label {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .indicator-value {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .positive { color: #48bb78; }
+        .negative { color: #f56565; }
+        .neutral { color: #ed8936; }
+
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .recommendation-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .analysis-section {
+                margin: 30px 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timeline-date {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Analisa Peak Season Comparison</h1>
+            <div class="subtitle">Juni 2025 vs 2024 • Bekasi Education Market</div>
+        </div>
+
+        <div class="content">
+            <div class="analysis-section">
+                <div class="section-title">
+                    <div class="section-icon">📅</div>
+                    Pergeseran Jadwal Libur Sekolah
+                </div>
+
+                <div class="insight-card highlight">
+                    <div class="insight-title">🎯 Key Finding: Peak Season Bergeser 1-2 Minggu</div>
+                    <div class="insight-content">
+                        Libur kenaikan kelas 2025 di Jawa Barat baru dimulai <span class="date-highlight">30 Juni 2025</span>, 
+                        berbeda dengan tahun sebelumnya yang biasanya lebih awal.
+                    </div>
+                    <div class="impact-meter">
+                        <div class="impact-label">Impact Level:</div>
+                        <div class="impact-bar">
+                            <div class="impact-fill high-impact"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">9-20 Jun</div>
+                        <div class="timeline-content">
+                            <strong>Penilaian Akhir Tahun (PAT)</strong><br>
+                            Siswa masih fokus ujian, belum mikirin les tambahan
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">26 Jun</div>
+                        <div class="timeline-content">
+                            <strong>Pembagian Rapor</strong><br>
+                            Mulai ada awareness untuk persiapan kelas berikutnya
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">30 Jun</div>
+                        <div class="timeline-content">
+                            <strong>Libur Resmi Dimulai</strong><br>
+                            Peak season enrollment dimulai dari sini
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <div class="section-title">
+                    <div class="section-icon">💰</div>
+                    Kondisi Ekonomi Lokal Bekasi
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-title">⚠️ Economic Headwinds: Pertumbuhan Masih Lambat</div>
+                    <div class="insight-content">
+                        APINDO Kota Bekasi melaporkan pertumbuhan ekonomi masih lambat di triwulan kedua 2025. 
+                        Meskipun inflasi terkendali, daya beli masyarakat mungkin terpengaruh.
+                    </div>
+                    <div class="impact-meter">
+                        <div class="impact-label">Impact Level:</div>
+                        <div class="impact-bar">
+                            <div class="impact-fill medium-impact"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="economic-indicator">
+                    <div class="indicator-label">Pertumbuhan Ekonomi Q2 2025</div>
+                    <div class="indicator-value negative">Lambat ⬇️</div>
+                </div>
+
+                <div class="economic-indicator">
+                    <div class="indicator-label">Tingkat Inflasi</div>
+                    <div class="indicator-value positive">Terkendali ✅</div>
+                </div>
+
+                <div class="economic-indicator">
+                    <div class="indicator-label">Daya Beli Masyarakat</div>
+                    <div class="indicator-value neutral">Tertekan ⚠️</div>
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <div class="section-title">
+                    <div class="section-icon">🎯</div>
+                    Strategic Implications
+                </div>
+
+                <div class="recommendation-box">
+                    <div class="recommendation-title">💡 Key Recommendations</div>
+                    <div>
+                        <strong>1. Timing Adjustment:</strong> Geser strategi marketing ke akhir Juni/awal Juli<br>
+                        <strong>2. Price Sensitivity:</strong> Siapkan paket promo yang lebih menarik<br>
+                        <strong>3. Value Proposition:</strong> Tekankan ROI pendidikan yang jelas<br>
+                        <strong>4. Extended Campaign:</strong> Peak season mungkin lebih panjang tapi volume lebih rendah
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-title">🔮 Prediksi Impact 2025 vs 2024</div>
+                    <div class="insight-content">
+                        <strong>Volume Enrollment:</strong> Diperkirakan turun 15-20% di minggu pertama Juli<br>
+                        <strong>Conversion Rate:</strong> Mungkin lebih rendah karena daya beli tertekan<br>
+                        <strong>Customer Segment:</strong> Shift ke kelas menengah yang lebih price-sensitive
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <h3>📈 Business Intelligence Report</h3>
+                <p>Data analysis untuk optimasi strategi peak season education business di Bekasi</p>
+                <small>Generated: Juni 2025 • Update berkala diperlukan</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple animation untuk impact meters
+        document.addEventListener('DOMContentLoaded', function() {
+            const impactBars = document.querySelectorAll('.impact-fill');
+            setTimeout(() => {
+                impactBars.forEach(bar => {
+                    bar.style.width = bar.classList.contains('high-impact') ? '85%' : 
+                                     bar.classList.contains('medium-impact') ? '65%' : '35%';
+                });
+            }, 500);
+        });
+
+        // Smooth scroll untuk timeline
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        timelineItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease-out';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
